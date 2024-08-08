@@ -35,28 +35,41 @@ export class AppInterceptor implements NestInterceptor {
         GqlExecutionContext.create(context).getInfo(),
       );
 
+      console.log(operationName);
+
       return next.handle().pipe(
         tap(() => {
-          const active = Sentry.getActiveSpan();
-          console.log({ 'active span before': active });
-          active && active.updateName(`activeSpan ${operationName}`);
-          console.log({ 'active span after': active });
+          // const active = Sentry.getActiveSpan();
+          // console.log({ 'active span before': active });
+          // active && active.updateName(`activeSpan ${operationName}`);
+          // console.log({ 'active span after': active });
 
-          const root = active && Sentry.getRootSpan(active);
-          console.log({ 'root span before': root });
-          root && root.updateName(`rootSpan ${operationName}`);
-          console.log({ 'root span after': root });
+          // const root = active && Sentry.getRootSpan(active);
+          // console.log({ 'root span before': root });
+          // root && root.updateName(`rootSpan ${operationName}`);
+          // console.log({ 'root span after': root });
 
-          const currentScope = Sentry.getCurrentScope();
-          console.log({ 'current scope before': currentScope });
-          currentScope &&
-            currentScope.setTransactionName(`currentScope ${operationName}`);
-          console.log({ 'current scope after': currentScope });
+          // const currentScope = Sentry.getCurrentScope();
+          // console.log({ 'current scope before': currentScope });
+          // currentScope &&
+          //   currentScope.setTransactionName(`currentScope ${operationName}`);
+          // console.log({ 'current scope after': currentScope });
 
-          const isolationScope = Sentry.getIsolationScope();
-          console.log({ 'isolation scope before': isolationScope });
-          isolationScope.setTransactionName(`isolationScope ${operationName}`);
-          console.log({ 'isolation scope after': isolationScope });
+          // const isolationScope = Sentry.getIsolationScope();
+          // console.log({ 'isolation scope before': isolationScope });
+          // isolationScope.setTransactionName(`isolationScope ${operationName}`);
+          // console.log({ 'isolation scope after': isolationScope });
+          // const span = Sentry.getActiveSpan();
+          // if (span) {
+          //   const rootSpan = Sentry.getRootSpan(span);
+          //   rootSpan.updateName(operationName);
+          //   rootSpan.setAttribute('sentry.skip_span_data_inference', true);
+          //   console.log(rootSpan);
+          // }
+
+          // // set this to have the same transaction name reported for error events
+          // Sentry.getCurrentScope().setTransactionName(operationName);
+          // console.log('HE TAPPED', operationName);
         }),
       );
     }
